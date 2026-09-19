@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090708">
+  <title>欲望底色</title>
+  <link rel="stylesheet" href="./app.css">
+</head>
+<body>
+  <main id="app">
+    <section id="screen-cover" class="screen screen-cover" aria-labelledby="cover-title">
+      <div id="hero-media" class="hero-media">
+        <picture class="hero-poster">
+          <img id="hero-poster" alt="哥特少女手持红色光球" decoding="async">
+        </picture>
+        <video id="hero-video" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+      </div>
+      <p id="cover-brand" class="eyebrow"></p>
+      <h1 id="cover-title" tabindex="-1"></h1>
+      <p id="cover-eyebrow" class="cover-copy"></p>
+      <button type="button" class="primary-action" data-action="open-intro">进入测试</button>
+    </section>
+
+    <section id="screen-intro" class="screen" aria-labelledby="intro-title" hidden>
+      <p class="eyebrow">测试说明</p>
+      <h2 id="intro-title" tabindex="-1">在直觉里，看见你的欲望底色</h2>
+      <p class="screen-copy">依照第一感受作答，没有标准答案。未完成的进度会自动保存在当前设备。</p>
+      <p id="intro-disclaimer" class="disclaimer"></p>
+      <div class="stack-actions">
+        <button type="button" class="primary-action" data-action="start-quiz"></button>
+        <button type="button" class="text-action" data-action="back-cover">返回封面</button>
+      </div>
+    </section>
+
+    <section id="screen-quiz" class="screen" aria-labelledby="question-title" hidden>
+      <div class="quiz-progress">
+        <span id="question-count"></span>
+        <progress id="question-progress" value="0" max="1">0%</progress>
+      </div>
+      <h2 id="question-title" tabindex="-1"></h2>
+      <div id="question-options" class="option-list" role="group" aria-labelledby="question-title"></div>
+      <nav class="quiz-navigation" aria-label="题目导航">
+        <button type="button" class="secondary-action" data-action="previous-question">上一题</button>
+        <button type="button" class="secondary-action" data-action="next-question">下一题</button>
+      </nav>
+    </section>
+
+    <section id="screen-result" class="screen screen-result" aria-labelledby="result-title" hidden>
+      <p class="eyebrow">测试完成</p>
+      <h2 id="result-title" tabindex="-1"></h2>
+      <p id="result-slogan" class="result-slogan"></p>
+
+      <div class="result-ranking" aria-label="主要维度">
+        <p><span>第一维度</span><strong id="result-primary"></strong></p>
+        <p><span>第二维度</span><strong id="result-secondary"></strong></p>
+      </div>
+
+      <canvas id="result-radar" class="result-radar" role="img" aria-label="欲望维度雷达图"></canvas>
+      <div id="result-dimensions" class="result-dimensions" aria-label="维度分数"></div>
+
+      <div class="result-report">
+        <p id="result-summary"></p>
+        <p id="result-diagnosis"></p>
+        <p id="result-detail-one"></p>
+        <p id="result-detail-two"></p>
+        <p id="result-shadow"></p>
+        <p id="result-advice" class="result-advice"></p>
+      </div>
+
+      <p id="result-share-preview" class="share-preview"></p>
+      <div class="stack-actions">
+        <button id="copy-share" type="button" class="primary-action" data-action="copy-share">复制分享文案</button>
+        <button id="restart-test" type="button" class="secondary-action" data-action="restart">重新测试</button>
+      </div>
+    </section>
+
+    <p id="live-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+  </main>
+
+  <script src="./product-config.js"></script>
+  <script src="./desire-core.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
