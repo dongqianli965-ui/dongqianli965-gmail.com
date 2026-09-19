@@ -5,9 +5,9 @@
   var state;
   var locked = false;
   var transitionTimer;
+  var bgm;
   var audioContext;
   var audioMaster;
-  var ambientTimer = null;
 
   function byId(id){
     return document.getElementById(id);
@@ -104,6 +104,20 @@
     return !config.audio || config.audio.enabled !== false;
   }
 
+  function initAudio(){
+    var audio;
+
+    if(!audioIsEnabled()) return null;
+    audio = byId('bgm');
+    if(!audio) return null;
+    bgm = audio;
+    bgm.loop = true;
+    bgm.preload = 'metadata';
+    bgm.volume = config.audio && config.audio.musicVolume || 0.3;
+    bgm.src = config.audio && config.audio.music || '';
+    return bgm;
+  }
+
   function getAudioContext(){
     var AudioContextCtor;
 
@@ -114,7 +128,7 @@
     try {
       audioContext = new AudioContextCtor();
       audioMaster = audioContext.createGain();
-      audioMaster.gain.value = config.audio && config.audio.volume || 0.08;
+      audioMaster.gain.value = config.audio && config.audio.sfxVolume || 0.16;
       audioMaster.connect(audioContext.destination);
     } catch (error) {
       audioContext = null;
@@ -158,36 +172,28 @@
     } catch (error) {}
   }
 
-  function playAmbientBar(){
-    var context = ensureAudio();
-    var start;
-    var notes = [130.81, 155.56, 196, 233.08];
-
-    if(!context || !audioMaster) return;
-    start = context.currentTime + 0.05;
-    notes.forEach(function(note, index){
-      playTone(note, 1.8, 0.018, 'sine', start + index * 0.78);
-      playTone(note * 2, 0.34, 0.008, 'triangle', start + index * 0.78 + 0.22);
-    });
-    ambientTimer = root.setTimeout(function(){
-      ambientTimer = null;
-      playAmbientBar();
-    }, 3000);
-  }
-
   function startAudio(){
-    if(ambientTimer !== null) return;
-    if(ensureAudio()) playAmbientBar();
+    var audio;
+    var playPromise;
+
+    if(!audioIsEnabled()) return;
+    audio = initAudio();
+    ensureAudio();
+    if(!audio || !audio.paused || typeof audio.play !== 'function') return;
+    try {
+      playPromise = audio.play();
+      if(playPromise && typeof playPromise.catch === 'function') playPromise.catch(function(){});
+    } catch (error) {}
   }
 
   function playClick(){
     var context;
 
-    if(!audioContext) return;
     context = ensureAudio();
     if(!context) return;
-    playTone(520, 0.07, 0.07, 'triangle', context.currentTime);
-    playTone(780, 0.05, 0.035, 'sine', context.currentTime + 0.025);
+    playTone(180, 0.08, 0.06, 'triangle', context.currentTime);
+    playTone(1200, 0.025, 0.035, 'square', context.currentTime);
+    playTone(95, 0.1, 0.03, 'sine', context.currentTime + 0.008);
   }
 
   function renderCover(){
@@ -491,6 +497,7 @@
     config = nextConfig;
     state = loadOrCreateState(config.questions.length);
     initHeroMedia(config.media);
+    initAudio();
     renderCover();
   }
 
@@ -500,6 +507,7 @@
     config = nextConfig;
     state = createState(config.questions.length);
     initHeroMedia(config.media);
+    initAudio();
     renderCover();
   }
 
