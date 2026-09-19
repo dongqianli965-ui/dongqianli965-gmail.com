@@ -2,6 +2,7 @@ window.PRODUCT_CONFIG = {
   meta:{id:'desire-bottom-color',version:'1.0.0',title:'你的欲望底色是什么？',brand:'深渊测试'},
   theme:{accent:'#ff4a3d',background:'#090708',text:'#ece5d8',heroObjectPosition:'50% 20%'},
   media:{poster:'assets/hero-poster.png',heroVideo:'assets/hero-motion.mp4'},
+  audio:{enabled:true,volume:0.08},
   intro:{eyebrow:'32 道题 · 约 5 分钟',cta:'开始测试',disclaimer:'本测试仅供娱乐与自我观察，不构成心理诊断或医疗建议。'},
   dimensions:[
     {id:'se',label:'色欲',english:'LUST',color:'#ff4a3d',icon:'◆'},
